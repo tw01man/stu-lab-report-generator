@@ -1,20 +1,22 @@
 @echo off
-chcp 65001 >nul
 cd /d "%~dp0"
-if not exist "templates\模电.json" (
-  echo 首次使用：请先把 templates\模电.example.json 复制为 templates\模电.json，
-  echo 并把 template_docx 改成你的 Word 模板路径。
+set "HAS_TEMPLATE_CONFIG="
+for /f "delims=" %%F in ('dir /b "templates\*.json" 2^>nul ^| findstr /i /v /e "example.json"') do set "HAS_TEMPLATE_CONFIG=1"
+if not defined HAS_TEMPLATE_CONFIG (
+  echo First run: the template config is missing.
+  echo Copy the example JSON in templates\ and set template_docx to your Word template.
+  echo See README.md for the exact steps.
   pause
   exit /b 1
 )
 if not exist "profiles\profile.json" (
-  echo 首次使用：请先把 profiles\example.json 复制为 profiles\profile.json，
-  echo 并填写姓名、学号、院系、专业。
+  echo First run: profiles\profile.json is missing.
+  echo Copy profiles\example.json to profiles\profile.json and fill in your details.
   pause
   exit /b 1
 )
-set /p GUIDE=请把指导书文件拖到本窗口，然后回车：
+set /p GUIDE=Drag the guide file into this window, then press Enter:
 set GUIDE=%GUIDE:"=%
-set /p EXP=实验编号（如 3 或 三，可留空）：
+set /p EXP=Experiment number (e.g. 3, empty for the first experiment):
 python -m lab_report --guide "%GUIDE%" --experiment "%EXP%"
 if errorlevel 1 pause

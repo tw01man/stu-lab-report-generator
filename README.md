@@ -79,6 +79,8 @@ python -m lab_report --guide "指导书.docx"
 4. 再按回车，等待程序运行结束。
 5. 到指导书所在目录取生成的 `.docx` 报告。
 
+窗口中的提示为英文：`Drag the guide file...` 表示把指导书拖进窗口，`Experiment number...` 表示输入实验编号。
+
 首次运行前必须先完成上面的"首次配置"（`templates\模电.json` 和 `profiles\profile.json`），否则脚本会提示并退出。
 
 ## 参数说明
