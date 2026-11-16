@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.venv/
+
+# 本地真实配置（姓名、学号、本机路径）
+profiles/*.json
+!profiles/example.json
+!profiles/ai.json.example
+templates/*.json
+!templates/模电.example.json
+
+# API 密钥与本地环境
+.env
+.env.*
+*.key
+*.pem
+
+# 课程材料与生成结果
+*.docx
+*.doc
+*.pdf
+tmpout/
+
+# 内部笔记与工具缓存
+docs/
+.superpowers/
+.claude/
+desktop.ini
+Thumbs.db
+
+# 日志
+*.log
