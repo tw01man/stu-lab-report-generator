@@ -1,0 +1,19 @@
+{
+  "name": "模拟电路设计",
+  "blank_course_title": true,
+  "template_docx": "实验报告模板.docx",
+  "title": {"pattern": "^实验X\\s+XXXXXX$", "font_name": "黑体", "size_pt": 15.0},
+  "profile_replace": {"department": "院系：", "major": "年级专业：", "name": "姓名：", "student_id": "学号："},
+  "blank_policy": "placeholder",
+  "screenshot_columns": ["波形", "观察波形", "实测波形", "截图"],
+  "question_keywords": ["讨论", "思考", "为什么", "如何", "怎样", "什么是", "有哪些", "是否", "试述", "简述"],
+  "anchors": {
+    "purpose":   {"after_heading": "一、实验目的", "target": "next_paragraph"},
+    "equipment": {"after_heading": "二、实验设备", "target": "next_paragraph"},
+    "principle": {"after_heading": "1、实验原理描述", "target": "next_table", "cell": [0, 0]},
+    "steps":     {"after_heading": "2、实验步骤（含实验仪器操作步骤）", "target": "next_table", "cell": [0, 0],
+                  "clear_placeholder": "请分点列明仪器设备的操作步骤"},
+    "results":   {"after_heading": "四、实验结果与分析", "target": "next_table", "cell": [0, 0],
+                  "subsections": {"results": "1、实验结果", "questions": "2、思考题"}}
+  }
+}

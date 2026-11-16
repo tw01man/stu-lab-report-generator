@@ -5,12 +5,14 @@ __pycache__/
 *.egg-info/
 .venv/
 
-# 本地真实配置（姓名、学号、本机路径）
+# 默认配置（占位信息）随仓库发布；个人配置与人名文件仍忽略
 profiles/*.json
 !profiles/example.json
 !profiles/ai.json.example
+!profiles/profile.json
 templates/*.json
 !templates/模电.example.json
+!templates/模电.json
 
 # API 密钥与本地环境
 .env
@@ -18,8 +20,9 @@ templates/*.json
 *.key
 *.pem
 
-# 课程材料与生成结果
+# 课程材料与生成结果（仅放行随仓库发布的空白模板）
 *.docx
+!templates/实验报告模板.docx
 *.doc
 *.pdf
 tmpout/

@@ -57,6 +57,13 @@ def resolve_template_path(config_path: Path, template_docx: str) -> Path:
     return path if path.is_absolute() else Path(config_path).parent / path
 
 
+def resolve_profile_path(profile_arg: str | None, default: Path,
+                         local: Path) -> Path:
+    if profile_arg:
+        return Path(profile_arg)
+    return local if local.exists() else default
+
+
 def _anchor_from_json(name: str, raw: dict) -> AnchorSpec:
     if "after_heading" not in raw:
         raise ConfigError(f"模板配置的锚点 {name} 缺少 after_heading")

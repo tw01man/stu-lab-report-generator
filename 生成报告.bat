@@ -3,15 +3,14 @@ cd /d "%~dp0"
 set "HAS_TEMPLATE_CONFIG="
 for /f "delims=" %%F in ('dir /b "templates\*.json" 2^>nul ^| findstr /i /v /e "example.json"') do set "HAS_TEMPLATE_CONFIG=1"
 if not defined HAS_TEMPLATE_CONFIG (
-  echo First run: the template config is missing.
-  echo Copy the example JSON in templates\ and set template_docx to your Word template.
-  echo See README.md for the exact steps.
+  echo The template config is missing or incomplete.
+  echo Re-download the templates folder from the repository.
   pause
   exit /b 1
 )
 if not exist "profiles\profile.json" (
-  echo First run: profiles\profile.json is missing.
-  echo Copy profiles\example.json to profiles\profile.json and fill in your details.
+  echo profiles\profile.json is missing.
+  echo Re-download the profiles folder from the repository.
   pause
   exit /b 1
 )

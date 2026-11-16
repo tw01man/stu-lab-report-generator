@@ -17,6 +17,14 @@
 
 **工具只整理指导书里已有的内容，绝不编造测量数据和结论。** 实测数据、示波器截图等需要你手工填写的格子会留空并写入灰色提示，生成后由你自己补。
 
+## 三步开始
+
+1. 下载仓库（GitHub 页面 `Code` → `Download ZIP`）并解压。
+2. 首次使用先安装依赖：`python -m pip install -r requirements.txt`。
+3. 双击 `生成报告.bat`，把实验指导书拖进窗口，输入实验编号（可留空），按回车。
+
+仓库已内置学校空白实验报告模板和默认配置，**无需复制或修改任何 JSON 文件**。
+
 ## 核心功能
 
 - **自动解析指导书**：支持 `.docx`、`.pdf`、`.txt`、`.md` 和旧版 `.doc`，自动识别并切分实验一、实验二……各自的内容。
@@ -37,19 +45,17 @@
 python -m pip install -r requirements.txt
 ```
 
-## 首次配置
+## 开箱即用（默认配置）
 
-复制两份示例配置，改成本机可用的版本：
+仓库已经内置：
 
-```bat
-copy templates\模电.example.json templates\模电.json
-copy profiles\example.json profiles\profile.json
-```
+- `templates/实验报告模板.docx`：学校空白实验报告模板。
+- `templates/模电.json`：与模板匹配的默认配置，`template_docx` 已指向 `实验报告模板.docx`。
+- `profiles/profile.json`：个人信息，初始为占位符 `张三 / 2023000000 / 某学院 / 某专业`。
 
-- `templates\模电.json`：把 `template_docx` 改成你的 Word 模板路径。可以写相对于 `templates/` 目录的文件名（如 `实验报告模板.docx`），也可以写绝对路径。
-- `profiles\profile.json`：填写 `name`（姓名）、`student_id`（学号）、`department`（院系）、`major`（专业）。
+直接用即可。要让报告页眉显示你自己的信息，编辑 `profiles/profile.json` 里的 `name`（姓名）、`student_id`（学号）、`department`（院系）、`major`（专业）四个字段；也可以另存一份 `profiles/profile.local.json` 填写个人信息，程序会优先使用它，且该文件不会被提交。
 
-第一次使用请务必先完成这一步，否则程序或双击脚本会提示缺少配置。
+需要换成本校其他课程模板时，参考下方"换课程 / 换模板"。
 
 ## 快速开始
 
@@ -81,7 +87,7 @@ python -m lab_report --guide "指导书.docx"
 
 窗口中的提示为英文：`Drag the guide file...` 表示把指导书拖进窗口，`Experiment number...` 表示输入实验编号。
 
-首次运行前必须先完成上面的"首次配置"（`templates\模电.json` 和 `profiles\profile.json`），否则脚本会提示并退出。
+仓库自带默认模板与占位个人信息，无需任何配置；如需让报告显示自己的姓名学号，见上方"开箱即用（默认配置）"。
 
 ## 参数说明
 
@@ -90,7 +96,7 @@ python -m lab_report --guide "指导书.docx"
 | `--guide` | 指导书路径（必填） |
 | `--experiment` | 实验编号，如 `3` 或 `实验三`；留空取第一个实验 |
 | `--template` | 模板配置 JSON，默认 `templates/模电.json` |
-| `--profile` | 个人信息 JSON，默认 `profiles/profile.json` |
+| `--profile` | 个人信息 JSON，默认 `profiles/profile.json`（存在 `profiles/profile.local.json` 时优先） |
 | `--out` | 输出目录，默认指导书所在目录 |
 | `--tables` | 表格位置：`preserve`（默认，保持原文位置）或 `results`（统一移到"实验结果"区） |
 | `--blank` | 手工填写的格子：`placeholder`（默认，写灰色提示）或 `empty`（完全留空） |
@@ -139,7 +145,7 @@ python -m lab_report --guide "指导书.docx"
 
 - **不编造数据**：只整理指导书里已有的内容，不虚构测量数据、波形和结论；需要实测的格子留空或写提示。
 - **不覆盖旧报告**：同名输出文件会自动加时间戳，原报告始终保留。
-- **仓库只放代码和示例**：真实的个人信息配置（`profiles/profile.json`）、AI 配置（`profiles/ai.json`）、本机 Word 模板、课程指导书和生成的报告都不进仓库，已在 `.gitignore` 中排除。
+- **仓库只放代码、空白模板和占位配置**：真实的个人信息请放在 `profiles/profile.local.json` 这类被忽略的文件里；AI 配置、课程指导书和生成的报告也不进仓库，已在 `.gitignore` 中排除。
 - **密钥不进仓库**：API 密钥只通过环境变量传入，配置文件中只保存环境变量名。
 
 ## 常见问题

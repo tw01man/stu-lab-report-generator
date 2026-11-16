@@ -4,7 +4,8 @@ import sys
 from pathlib import Path
 
 from .config import (
-    ConfigError, load_profile, load_template_config, resolve_template_path)
+    ConfigError, load_profile, load_template_config, resolve_profile_path,
+    resolve_template_path)
 from .ingest import IngestError, ingest
 from .sections import SectionError, parse_experiment
 from .template import (SLOT_LABELS, FillOptions, TemplateError, fill_report,
@@ -14,6 +15,7 @@ from .validate import validate_report
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEMPLATE = PROJECT_ROOT / "templates" / "模电.json"
 DEFAULT_PROFILE = PROJECT_ROOT / "profiles" / "profile.json"
+LOCAL_PROFILE = PROJECT_ROOT / "profiles" / "profile.local.json"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -21,8 +23,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--guide", required=True, help="实验指导书（docx/pdf/doc/txt）")
     parser.add_argument("--experiment", help="实验编号，如 3 或 实验三")
     parser.add_argument("--template", default=str(DEFAULT_TEMPLATE), help="模板配置 JSON")
-    parser.add_argument("--profile", default=str(DEFAULT_PROFILE),
-                        help="个人信息 JSON（默认 profiles/profile.json，首次使用请从 example.json 复制）")
+    parser.add_argument("--profile", default=None,
+                        help="个人信息 JSON（默认 profiles/profile.json；"
+                             "若存在 profiles/profile.local.json 则优先）")
     parser.add_argument("--out", help="输出目录（默认为指导书所在目录）")
     parser.add_argument("--tables", choices=("preserve", "results"), default="preserve",
                         help="数据表放置：preserve 保持原文位置，results 移到实验结果")
@@ -85,7 +88,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         guide = Path(args.guide)
         template = Path(args.template)
-        profile_path = Path(args.profile)
+        profile_path = resolve_profile_path(
+            args.profile, DEFAULT_PROFILE, LOCAL_PROFILE)
         cfg = load_template_config(template)
         profile = load_profile(profile_path)
         source = ingest(guide)

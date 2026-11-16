@@ -1,7 +1,24 @@
 from pathlib import Path
 import pytest
 from lab_report.config import (
-    ConfigError, load_profile, load_template_config, resolve_template_path)
+    ConfigError, load_profile, load_template_config, resolve_profile_path,
+    resolve_template_path)
+
+
+def test_resolve_profile_path_prefers_local_override(tmp_path):
+    default = tmp_path / "profile.json"
+    local = tmp_path / "profile.local.json"
+    default.write_text("{}", encoding="utf-8")
+    local.write_text("{}", encoding="utf-8")
+    assert resolve_profile_path(None, default, local) == local
+    assert resolve_profile_path(str(default), default, local) == default
+
+
+def test_resolve_profile_path_falls_back_to_default(tmp_path):
+    default = tmp_path / "profile.json"
+    local = tmp_path / "profile.local.json"
+    default.write_text("{}", encoding="utf-8")
+    assert resolve_profile_path(None, default, local) == default
 
 def test_load_modian_template():
     cfg = load_template_config(Path("templates/模电.example.json"))
